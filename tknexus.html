@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TK Nexus - AI-Powered Business Operating System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a, nav button {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        nav .btn-signup {
+            background: #667eea;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        nav .btn-signup:hover {
+            background: #764ba2;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Home Section */
+        .home {
+            text-align: center;
+            color: white;
+            padding: 4rem 0;
+            display: none;
+        }
+
+        .home.active {
+            display: block;
+        }
+
+        .home h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .home .gradient-text {
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .home p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Features Section */
+        .features {
+            display: none;
+            padding: 4rem 0;
+        }
+
+        .features.active {
+            display: block;
+        }
+
+        .features h2 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Auth Section */
+        .auth-section {
+            display: none;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-section.active {
+            display: flex;
+        }
+
+        .auth-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-form h2 {
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .toggle-auth {
+            text-align: center;
+            margin-top: 1rem;
+            color: #666;
+        }
+
+        .toggle-auth a {
+            color: #667eea;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .toggle-auth a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard Section */
+        .dashboard {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .dashboard.active {
+            display: block;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            color: #666;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+        }
+
+        .metric-card .label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-card .value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .metric-card .icon {
+            font-size: 2rem;
+            float: right;
+        }
+
+        /* AI Section */
+        .ai-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-section h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .ai-input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .ai-input-group button {
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .ai-input-group button:hover {
+            background: #764ba2;
+        }
+
+        .ai-response {
+            background: #f0f4ff;
+            padding: 1.5rem;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            display: none;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .ai-response.active {
+            display: block;
+        }
+
+        /* Actions Section */
+        .actions-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .action-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .action-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .home h1 {
+                font-size: 2rem;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .metric-card .value {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Alert Message */
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert.active {
+            display: block;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">🚀 TK Nexus</div>
+        <div class="nav-links">
+            <a onclick="showHome()">Home</a>
+            <a onclick="showFeatures()">Features</a>
+            <button class="btn-signup" onclick="showLogin()">Login</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home" class="home active">
+            <h1>Run Your Entire Business</h1>
+            <h1 class="gradient-text">With One AI</h1>
+            <p>Generate leads, automate outreach, build websites, and scale your business - all powered by AI</p>
+            <div class="buttons">
+                <button class="btn btn-primary" onclick="showSignup()">Get Started Free</button>
+                <button class="btn btn-secondary">Watch Demo</button>
+            </div>
+
+            <!-- Features Preview -->
+            <section id="features" class="features">
+                <h2>Powerful Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon">🎯</div>
+                        <h3>Lead Finder AI</h3>
+                        <p>Automatically find 100+ qualified business leads from Google Maps, Instagram, and LinkedIn</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">📨</div>
+                        <h3>Outreach Automation</h3>
+                        <p>Send personalized messages via email, WhatsApp, Instagram, and SMS automatically</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">📊</div>
+                        <h3>Analytics Dashboard</h3>
+                        <p>Get real-time insights and AI-powered recommendations to grow your business faster</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">🌐</div>
+                        <h3>Website Builder</h3>
+                        <p>AI-generated professional websites with SEO optimization in minutes</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">✍️</div>
+                        <h3>Content Creator</h3>
+                        <p>Generate social media content, email sequences, and marketing copy automatically</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">🤖</div>
+                        <h3>AI Assistant</h3>
+                        <p>Chat with AI to get business strategies, growth tips, and actionable insights</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Login Section -->
+        <section id="login" class="auth-section">
+            <div class="auth-form">
+                <h2>Welcome Back</h2>
+                <div id="login-alert" class="alert"></div>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="login-email" value="test@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="login-password" value="password123" required>
+                    </div>
+                    <button type="submit" class="form-submit">Sign In</button>
+                </form>
+                <div class="toggle-auth">
+                    Don't have an account? <a onclick="showSignup()">Sign Up</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Signup Section -->
+        <section id="signup" class="auth-section">
+            <div class="auth-form">
+                <h2>Create Account</h2>
+                <div id="signup-alert" class="alert"></div>
+                <form onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label>Business Name</label>
+                        <input type="text" id="signup-business" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="signup-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signup-password" required>
+                    </div>
+                    <button type="submit" class="form-submit">Create Account</button>
+                </form>
+                <div class="toggle-auth">
+                    Already have an account? <a onclick="showLogin()">Sign In</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="dashboard">
+            <div class="dashboard-header">
+                <h1>🚀 Dashboard</h1>
+                <p>Welcome to TK Nexus</p>
+                <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="logout()">Logout</button>
+            </div>
+
+            <!-- Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="label">Total Leads</div>
+                    <div class="value">150</div>
+                    <div class="icon">🎯</div>
+                </div>
+                <div class="metric-card">
+                    <div class="label">Messages Sent</div>
+                    <div class="value">450</div>
+                    <div class="icon">📨</div>
+                </div>
+                <div class="metric-card">
+                    <div class="label">Replies Received</div>
+                    <div class="value">89</div>
+                    <div class="icon">💬</div>
+                </div>
+                <div class="metric-card">
+                    <div class="label">Website Visitors</div>
+                    <div class="value">1,230</div>
+                    <div class="icon">👁️</div>
+                </div>
+            </div>
+
+            <!-- AI Assistant -->
+            <div class="ai-section">
+                <h2>🤖 Ask TK Nexus AI</h2>
+                <div class="ai-input-group">
+                    <input type="text" id="ai-question" placeholder="Ask anything... (e.g., 'Find leads in my area', 'Generate content ideas')">
+                    <button onclick="askAI()">Send</button>
+                </div>
+                <div id="ai-response" class="ai-response"></div>
+            </div>
+
+            <!-- Quick Actions -->
+            <h2 style="color: #333; margin: 2rem 0 1rem 0;">Quick Actions</h2>
+            <div class="actions-section">
+                <div class="action-card">
+                    <div class="icon">🔍</div>
+                    <h3>Find Leads</h3>
+                    <p>Discover 50+ qualified business leads</p>
+                </div>
+                <div class="action-card">
+                    <div class="icon">📤</div>
+                    <h3>Send Outreach</h3>
+                    <p>Automate messages to your leads</p>
+                </div>
+                <div class="action-card">
+                    <div class="icon">📊</div>
+                    <h3>View Analytics</h3>
+                    <p>Track your business growth metrics</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // User Data
+        let users = JSON.parse(localStorage.getItem('tk-nexus-users')) || {
+            'test@example.com': {
+                email: 'test@example.com',
+                password: 'password123',
+                businessName: 'Demo Business'
+            }
+        };
+
+        let currentUser = JSON.parse(localStorage.getItem('tk-nexus-current-user')) || null;
+
+        // Navigation Functions
+        function showHome() {
+            hideAllSections();
+            document.getElementById('home').classList.add('active');
+        }
+
+        function showFeatures() {
+            hideAllSections();
+            document.getElementById('home').classList.add('active');
+            document.getElementById('features').classList.add('active');
+        }
+
+        function showLogin() {
+            hideAllSections();
+            document.getElementById('login').classList.add('active');
+        }
+
+        function showSignup() {
+            hideAllSections();
+            document.getElementById('signup').classList.add('active');
+        }
+
+        function showDashboard() {
+            hideAllSections();
+            document.getElementById('dashboard').classList.add('active');
+        }
+
+        function hideAllSections() {
+            document.getElementById('home').classList.remove('active');
+            document.getElementById('login').classList.remove('active');
+            document.getElementById('signup').classList.remove('active');
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('features').classList.remove('active');
+        }
+
+        // Authentication Functions
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (users[email] && users[email].password === password) {
+                currentUser = users[email];
+                localStorage.setItem('tk-nexus-current-user', JSON.stringify(currentUser));
+                showAlert('login-alert', 'Login successful!', 'success');
+                setTimeout(() => showDashboard(), 1000);
+            } else {
+                showAlert('login-alert', 'Invalid email or password!', 'error');
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const businessName = document.getElementById('signup-business').value;
+
+            if (users[email]) {
+                showAlert('signup-alert', 'Email already exists!', 'error');
+                return;
+            }
+
+            users[email] = { email, password, businessName };
+            localStorage.setItem('tk-nexus-users', JSON.stringify(users));
+            showAlert('signup-alert', 'Account created! Redirecting to login...', 'success');
+
+            setTimeout(() => {
+                document.getElementById('signup-email').value = email;
+                document.getElementById('signup-password').value = password;
+                showLogin();
+            }, 1500);
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('tk-nexus-current-user');
+            showHome();
+        }
+
+        // AI Functions
+        function askAI() {
+            const question = document.getElementById('ai-question').value;
+            const responseDiv = document.getElementById('ai-response');
+
+            if (!question.trim()) {
+                alert('Please ask a question!');
+                return;
+            }
+
+            // Fake AI responses
+            const responses = {
+                'grow': 'To grow your business: 1) Find quality leads 2) Send personalized outreach 3) Build professional website 4) Create engaging content 5) Analyze and optimize metrics',
+                'leads': 'Find leads from Google Maps, Instagram, LinkedIn. Use our Lead Finder to discover 100+ prospects quickly.',
+                'marketing': 'Marketing strategies: Content marketing, Email sequences, Paid ads, Local SEO, Referrals, Retargeting',
+                'content': 'Generate social media content, email campaigns, blog posts, ad copy and more with AI',
+                'default': 'Great question! Focus on customer relationships, leverage AI automation, stay consistent with content, and measure results.'
+            };
+
+            let answer = responses['default'];
+            for (const [key, value] of Object.entries(responses)) {
+                if (question.toLowerCase().includes(key)) {
+                    answer = value;
+                    break;
+                }
+            }
+
+            responseDiv.innerHTML = `<strong>AI Response:</strong><br><br>${answer}`;
+            responseDiv.classList.add('active');
+            document.getElementById('ai-question').value = '';
+        }
+
+        // Helper Functions
+        function showAlert(elementId, message, type) {
+            const alert = document.getElementById(elementId);
+            alert.textContent = message;
+            alert.className = `alert active ${type}`;
+            setTimeout(() => {
+                alert.classList.remove('active');
+            }, 3000);
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            if (currentUser) {
+                showDashboard();
+            } else {
+                showHome();
+            }
+        });
+
+        // Enter key support for forms
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                if (document.getElementById('login').classList.contains('active')) {
+                    document.querySelector('#login form').dispatchEvent(new Event('submit'));
+                } else if (document.getElementById('signup').classList.contains('active')) {
+                    document.querySelector('#signup form').dispatchEvent(new Event('submit'));
+                } else if (document.getElementById('dashboard').classList.contains('active') && document.getElementById('ai-question').value) {
+                    askAI();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
