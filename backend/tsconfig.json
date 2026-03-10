@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
+```
+
+---
+
+## File 18: `backend/.env.example`
+
+**GitHub Path:** `backend/.env.example`
+```
+PORT=3001
+NODE_ENV=development
+JWT_SECRET=your_super_secret_jwt_key_12345
+JWT_EXPIRE=7d
+OPENAI_API_KEY=sk-YOUR_API_KEY_HERE
+GOOGLE_MAPS_API_KEY=YOUR_GOOGLE_MAPS_KEY_HERE
+DATABASE_URL=mock://database
+FRONTEND_URL=http://localhost:3000
